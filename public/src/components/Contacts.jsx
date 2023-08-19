@@ -7,17 +7,16 @@ function Contacts({ contacts, currentUser, changeChat }) {
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
 
-  function myfun() {
-    setCurrentUserImage(currentUser.avatarImage);
-    setCurrentUserName(currentUser.username);
+  async function myfun() {
+    const data = await JSON.parse(localStorage.getItem("chat-app-user"));
+    if(data){
+      setCurrentUserImage(data.avatarImage);
+      setCurrentUserName(data.username);
+    }
   }
   useEffect(() => {
-    if (currentUser) {
       myfun();
-    }
   }, []);
-
-
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
@@ -34,8 +33,7 @@ function Contacts({ contacts, currentUser, changeChat }) {
             {contacts.map((contact, index) => {
               return (
                 <div
-                  className={`contact ${index === currentSelected ? "selected" : ""
-                    }`}
+                  className={`contact ${index === currentSelected ? "selected" : ""}`}
                   key={index}
                   onClick={() => changeCurrentChat(index, contact)}
                 >
@@ -66,11 +64,8 @@ function Contacts({ contacts, currentUser, changeChat }) {
         </Container>
       )}
     </>
-
-
   );
 }
-
 const Container = styled.div`
 
 display: grid;
@@ -90,8 +85,6 @@ background-color: #080420;
       text-transform: uppercase;
     }
   }
-
-
   .contacts{
     display:flex;
     flex-direction: column;

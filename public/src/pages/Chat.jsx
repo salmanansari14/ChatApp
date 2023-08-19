@@ -8,7 +8,6 @@ import Welcome from "../components/Welcome";
 import ChatContainer from "../components/ChatContainer";
 import {io} from "socket.io-client";
 
-
 function Chat() {
   const socket = useRef();
   const navigate = useNavigate();
@@ -27,7 +26,8 @@ function Chat() {
       }
     }
     myfunc();
-  }, []);
+  }, [
+  ]);
   useEffect(() => {
   if(currentUser){
     socket.current = io(host);
@@ -49,7 +49,6 @@ function Chat() {
       myfunc2();
     }
   }, [currentUser]);
-
   const handleChatChange = (Chat) => {
     setCurrentChat(Chat);
   }
@@ -57,18 +56,16 @@ function Chat() {
   return (
     <Container>
       <div className="container">
-        <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange} />
+        <Contacts contacts={contacts} changeChat={handleChatChange} />
         {isLoaded && currentChat === undefined ? (
           <Welcome currentUser={currentUser} />
         ) : (
           <ChatContainer currentChat={currentChat} currentUser={currentUser} socket = {socket} />
         )}
       </div>
-      
     </Container>
   );
 }
-
 const Container = styled.div`
   display: felx;
   height: 100vh;
